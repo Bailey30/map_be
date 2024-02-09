@@ -1,0 +1,9 @@
+the zip file:
+
+the first artifact that gets generated in a serverless prject is your application code and supporting libraries. By default, these are: compressed in a zip file and uploaded to an S3 bucket by the SAM CLI during the package phase.
+
+the packaged template:
+
+the second artifact that SAM CL generates during the package phase is the packaged template. Which is a copy of your project's template.yaml, except that it references the location of the zip file (first artifact) in the S3 bucket.
+
+

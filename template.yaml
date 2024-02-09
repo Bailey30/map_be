@@ -1,0 +1,119 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  guinness_map
+
+  Sample SAM Template for guinness_map
+
+# More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
+Globals:
+  Function:
+    Timeout: 3
+
+Resources:
+  CreateReviewFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: guinness/src/lambda/createReview
+      Handler: app.lambdaHandler
+      Runtime: nodejs18.x
+      Architectures:
+        - x86_64
+      Events:
+        CreateReview:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /review
+            Method: post
+      Environment:
+        Variables:
+          REVIEW_TABLE_NAME: !Ref ReviewTable
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref ReviewTable
+    Metadata: # Manage esbuild properties
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: true
+        Target: es2020
+        Sourcemap: true
+        EntryPoints:
+        - app.ts
+
+
+  GetReviewsFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: guinness/src/lambda/getReviews
+      Handler: app.lambdaHandler
+      Runtime: nodejs18.x
+      Architectures:
+        - x86_64
+      Events:
+        GetReviews:
+          Type: Api
+          Properties:
+            Path: /review
+            Method: get
+      Environment:
+        Variables:
+          REVIEW_TABLE_NAME: !Ref ReviewTable
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref ReviewTable
+
+    Metadata: # Manage esbuild properties
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: true
+        Target: es2020
+        Sourcemap: true
+        EntryPoints:
+        - app.ts
+
+  # DynamoDB Tables
+  ReviewTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      AttributeDefinitions:
+        - AttributeName: id
+          AttributeType: S
+        - AttributeName: price
+          AttributeType: N
+      KeySchema:
+        - AttributeName: id
+          KeyType: HASH #hash key (partion key)
+        - AttributeName: price
+          KeyType: RANGE #range key (sort key)
+      BillingMode: PAY_PER_REQUEST
+
+
+  ApplicationResourceGroup:
+    Type: AWS::ResourceGroups::Group
+    Properties:
+      Name:
+        Fn::Sub: ApplicationInsights-SAM-${AWS::StackName}
+      ResourceQuery:
+        Type: CLOUDFORMATION_STACK_1_0
+  ApplicationInsightsMonitoring:
+    Type: AWS::ApplicationInsights::Application
+    Properties:
+      ResourceGroupName:
+        Ref: ApplicationResourceGroup
+      AutoConfigurationEnabled: 'true'
+Outputs:
+  # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
+  # Find out more about other implicit resources you can reference within SAM
+  # https://github.com/awslabs/serverless-application-model/blob/master/docs/internals/generated_resources.rst#api
+  ReviewApi:
+    Description: API Gateway endpoint URL for Prod stage for Create Review function
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/review/"
+  CreateReviewFunction:
+    Description: Create Review Function ARN
+    Value: !GetAtt CreateReviewFunction.Arn
+  GetReviewsFunction:
+    Description: Get Reviews Function ARN
+    Value: !GetAtt CreateReviewFunction.Arn
+  CreateReviewFunctionIamRole:
+    Description: Implicit IAM Role created for Create Review function
+    Value: !GetAtt CreateReviewFunctionRole.Arn
