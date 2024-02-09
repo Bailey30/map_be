@@ -34,7 +34,7 @@ export const lambdaHandler = async (event: APIGatewayProxyEvent): Promise<APIGat
             const obj: { [key: string]: any } = {}
             for (const [key, value] of Object.entries(item)) {
                 const v = Object.values(value)
-                obj[key] = v
+                obj[key] = v[0]
             }
             return obj
         })
