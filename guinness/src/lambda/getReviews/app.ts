@@ -38,6 +38,7 @@ export const lambdaHandler = async (event: APIGatewayProxyEvent): Promise<APIGat
             }
             return obj
         })
+        console.log("test commit for github actions")
         console.info(`response from: ${event.path} statusCode: ${200} body: ${items}`);
 
         return {
