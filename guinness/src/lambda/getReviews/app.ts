@@ -36,7 +36,7 @@ export const lambdaHandler = async (event: APIGatewayProxyEvent): Promise<APIGat
                 const v = Object.values(value)
                 const k = Object.keys(value)
                 if (k[0] === "N") {
-                    obj[key] = parseInt(v[0])
+                    obj[key] = parseFloat(v[0])
                 } else {
                     obj[key] = v[0]
                 }
