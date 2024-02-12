@@ -43,6 +43,7 @@ export const lambdaHandler = async (event: APIGatewayProxyEvent): Promise<APIGat
             TableName: tableName,
             Item: { id: id, location: location, price: price, rating: rating, longitude: longitude, latitude: latitude }
         }
+        console.log("PARAMS", params)
 
 
         const data = await ddbDocClient.send(new PutCommand(params))
