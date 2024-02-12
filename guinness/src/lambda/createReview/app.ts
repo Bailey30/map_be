@@ -27,8 +27,8 @@ export const lambdaHandler = async (event: APIGatewayProxyEvent): Promise<APIGat
         const body = JSON.parse(event.body!)
         const id = String(body.id)
         const location = body.location
-        const price = body.price
-        const rating = body.rating
+        const price = parseFloat(body.price)
+        const rating = parseInt(body.rating)
         const longitude = body.longitude
         const latitude = body.latitude
 
