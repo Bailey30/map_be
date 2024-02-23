@@ -2,6 +2,8 @@ import AWS from "aws-sdk"
 import { APIGatewayProxyEvent } from "aws-lambda"
 const s3 = new AWS.S3()
 
+const bucketName = process.env.S3_BUCKET_NAME
+
 export const uploadImage = async(event: APIGatewayProxyEvent)=>{
     console.log('received:', event)
     try {
@@ -11,7 +13,7 @@ export const uploadImage = async(event: APIGatewayProxyEvent)=>{
         const body = JSON.parse(event.body!)
         const key = body.key
         const s3Params = {
-            Bucket: process.env.S3_BUCKET_NAME,
+            Bucket: bucketName,
             Key: key,
             Expires: 30000,
             ContentType: 'image/jpeg'
