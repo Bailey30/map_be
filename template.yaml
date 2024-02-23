@@ -114,35 +114,35 @@ Resources:
   #       Sourcemap: true
   #       EntryPoints:
 
-  UploadImageFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      CodeUri: guinness/src/lambda/uploadImage
-      Handler: app.uploadImage
-      Runtime: nodejs18.x
-      Architectures:
-        - x86_64
-      Events:
-        UploadImage:
-          Type: Api
-          Properties:
-            Path: /image
-            Method: post
-      Environment:
-        Variables:
-          S3_BUCKET_NAME: !Ref guinnessImageBucket
-      Policies: 
-        - S3CrudPolicy:
-            BucketName: !Ref guinnessImageBucket
-
-    Metadata: # Manage esbuild properties
-      BuildMethod: esbuild
-      BuildProperties:
-        Minify: true
-        Target: es2020
-        Sourcemap: true
-        EntryPoints:
-        - app.ts
+  # UploadImageFunction:
+  #   Type: AWS::Serverless::Function
+  #   Properties:
+  #     CodeUri: guinness/src/lambda/uploadImage
+  #     Handler: app.uploadImage
+  #     Runtime: nodejs18.x
+  #     Architectures:
+  #       - x86_64
+  #     Events:
+  #       UploadImage:
+  #         Type: Api
+  #         Properties:
+  #           Path: /image
+  #           Method: post
+  #     Environment:
+  #       Variables:
+  #         S3_BUCKET_NAME: !Ref guinnessImageBucket
+  #     Policies: 
+  #       - S3CrudPolicy:
+  #           BucketName: !Ref guinnessImageBucket
+  #
+  #   Metadata: # Manage esbuild properties
+  #     BuildMethod: esbuild
+  #     BuildProperties:
+  #       Minify: true
+  #       Target: es2020
+  #       Sourcemap: true
+  #       EntryPoints:
+  #       - app.ts
   
   ReviewTable:
     Type: AWS::DynamoDB::Table
@@ -195,8 +195,8 @@ Outputs:
   CreateReviewFunctionIamRole:
     Description: Implicit IAM Role created for Create Review function
     Value: !GetAtt CreateReviewFunctionRole.Arn
-  guinnessImageBucket:
-    Value:  !Ref guinnessImageBucket
-  UploadImageFunction:
-    Description: UploadImageFunction ARN
-    Value: !GetAtt UploadImageFunction.Arn
+  # guinnessImageBucket:
+  #   Value:  !Ref guinnessImageBucket
+  # UploadImageFunction:
+  #   Description: UploadImageFunction ARN
+  #   Value: !GetAtt UploadImageFunction.Arn
