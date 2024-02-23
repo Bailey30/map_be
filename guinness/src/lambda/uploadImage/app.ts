@@ -1,5 +1,5 @@
 import AWS from "aws-sdk"
-const s3 = new AWS.S3
+const s3 = new AWS.S3()
 import { APIGatewayProxyEvent } from "aws-lambda"
 
 export const uploadImage = async function(event: APIGatewayProxyEvent) {
