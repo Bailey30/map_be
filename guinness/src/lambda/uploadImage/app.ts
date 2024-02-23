@@ -5,6 +5,7 @@
 // const bucketName = process.env.S3_BUCKET_NAME
 
 export const uploadImage = async (event: any, context: any) => {
+    console.log("redeployed")
     try {
         return {
             status: 200,
