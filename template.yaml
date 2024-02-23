@@ -11,6 +11,21 @@ Globals:
     Timeout: 3
 
 Resources:
+  guinnessImageBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      AccessControl: Private
+      BucketName: "guinnessimagebucket"
+      CorsConfiguration:
+        CorsRules:
+          - AllowedMethods:
+              - "PUT"
+              - "GET"
+            AllowedHeaders:
+              - "X-Forwarded-For"
+            AllowedOrigins:
+              - "*"
+
   CreateReviewFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
@@ -115,10 +130,10 @@ Resources:
             Method: get
       Environment:
         Variables:
-          S3_BUCKET_NAME: !Ref GuinnessImageBucket
+          S3_BUCKET_NAME: !Ref guinnessImageBucket
       Policies: 
         - S3CrudPolicy:
-            BucketName: !Ref GuinnessImageBucket
+            BucketName: !Ref guinnessImageBucket
 
     Metadata: # Manage esbuild properties
       BuildMethod: esbuild
@@ -127,8 +142,8 @@ Resources:
         Target: es2020
         Sourcemap: true
         EntryPoints:
-
-  # DynamoDB Tables
+        - app.ts
+  
   ReviewTable:
     Type: AWS::DynamoDB::Table
     Properties:
@@ -144,18 +159,7 @@ Resources:
           KeyType: RANGE #range key (sort key)
       BillingMode: PAY_PER_REQUEST
 
-  # S3 Bucket
-  GuinnessImageBucket:
-    Type: AWS::S3::Bucket
-    Properties:
-      BucketName: guinnessimagebucket
-      CorsConfiguration:
-        CorsRules:
-          - AllowedMethods:
-              - "PUT"
-              - "GET"
-            AllowedOrigins:
-              - "*"
+
         
 
 
@@ -188,3 +192,5 @@ Outputs:
   CreateReviewFunctionIamRole:
     Description: Implicit IAM Role created for Create Review function
     Value: !GetAtt CreateReviewFunctionRole.Arn
+  # GuinnessImageBucket:
+  #   Value:  !Ref GuinnessImageBucket
