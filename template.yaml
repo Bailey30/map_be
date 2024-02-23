@@ -145,17 +145,17 @@ Resources:
       BillingMode: PAY_PER_REQUEST
 
   # S3 Bucket
-  GuinnessImageBucket:
-    Type: AWS::S3::Bucket
-    Properties:
-      BucketName: guinnessimagebucket
-      CorsConfiguration:
-        CorsRules:
-          - AllowedMethods:
-              - "PUT"
-              - "GET"
-            AllowedOrigins:
-              - "*"
+  # GuinnessImageBucket:
+  #   Type: AWS::S3::Bucket
+  #   Properties:
+  #     BucketName: guinnessimagebucket
+  #     CorsConfiguration:
+  #       CorsRules:
+  #         - AllowedMethods:
+  #             - "PUT"
+  #             - "GET"
+  #           AllowedOrigins:
+  #             - "*"
         
 
 
