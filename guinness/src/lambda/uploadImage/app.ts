@@ -4,8 +4,8 @@ import { APIGatewayProxyEvent } from "aws-lambda"
 
 export const uploadImage = async function(event: APIGatewayProxyEvent) {
     try {
-        if (event.httpMethod !== "GET") {
-            throw new Error(`postMethod only accepts GET  method, you tried: ${event.httpMethod} method`)
+        if (event.httpMethod !== "POST") {
+            throw new Error(`postMethod only accepts POST  method, you tried: ${event.httpMethod} method`)
         }
         console.log('received:', event)
         const body = JSON.parse(event.body!)
