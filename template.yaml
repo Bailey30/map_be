@@ -192,5 +192,8 @@ Outputs:
   CreateReviewFunctionIamRole:
     Description: Implicit IAM Role created for Create Review function
     Value: !GetAtt CreateReviewFunctionRole.Arn
-  # GuinnessImageBucket:
-  #   Value:  !Ref GuinnessImageBucket
+  guinnessImageBucket:
+    Value:  !Ref guinnessImageBucket
+  UploadImageFunction:
+    Description: UploadImageFunction ARN
+    Value: !GetAtt UploadImageFunction.Arn
