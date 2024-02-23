@@ -6,7 +6,7 @@
 
 export const uploadImage = async (event: any, context: any, callback:any) => {
     callback(null, {
-        status: 200,
+        statusCode: 200,
         body: JSON.stringify({message: "try status code nexttime"})
     })
     // console.log('received:', event)
