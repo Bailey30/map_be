@@ -126,7 +126,7 @@ Resources:
         UploadImage:
           Type: Api
           Properties:
-            Path: /images
+            Path: /image
             Method: get
       Environment:
         Variables:
@@ -183,6 +183,9 @@ Outputs:
   ReviewApi:
     Description: API Gateway endpoint URL for Prod stage for Create Review function
     Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/review/"
+  ImageApi:
+    Description: API Gateway endpoint URL for image functions
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/image/"
   CreateReviewFunction:
     Description: Create Review Function ARN
     Value: !GetAtt CreateReviewFunction.Arn
