@@ -4,9 +4,15 @@
 
 // const bucketName = process.env.S3_BUCKET_NAME
 
-export const uploadImage = async () => {
-    return {
-        success: true
+export const uploadImage = async (event: any, context: any) => {
+    try {
+        return {
+            status: 200,
+            body: JSON.stringify({ message: "h" })
+        }
+    } catch(err:any) {
+        console.log(err)
+        return err
     }
     // console.log('received:', event)
     // try {
