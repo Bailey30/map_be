@@ -10,10 +10,9 @@ export const uploadImage = async function(event: APIGatewayProxyEvent) {
         console.log('received:', event)
         const body = JSON.parse(event.body!)
         const key = body.key
-
         const s3Params = {
             Bucket: process.env.S3_BUCKET_NAME,
-            key: key,
+            Key: key,
             Expires: 30000,
             ContentType: 'image/jpeg'
         }
