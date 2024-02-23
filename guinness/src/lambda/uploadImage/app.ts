@@ -3,11 +3,11 @@ import { APIGatewayProxyEvent } from "aws-lambda"
 const s3 = new AWS.S3()
 
 export const uploadImage = async(event: APIGatewayProxyEvent)=>{
+    console.log('received:', event)
     try {
         if (event.httpMethod !== "POST") {
             throw new Error(`postMethod only accepts POST  method, you tried: ${event.httpMethod} method`)
         }
-        console.log('received:', event)
         const body = JSON.parse(event.body!)
         const key = body.key
         const s3Params = {
