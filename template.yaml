@@ -99,34 +99,34 @@ Resources:
         Sourcemap: true
         EntryPoints:
 
-  UploadImageFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      CodeUri: guinness/src/lambda/uploadImage
-      Handler: app.uploadImage
-      Runtime: nodejs18.x
-      Architectures:
-        - x86_64
-      Events:
-        UploadImage:
-          Type: Api
-          Properties:
-            Path: /images
-            Method: get
-      Environment:
-        Variables:
-          S3_BUCKET_NAME: !Ref GuinnessImageBucket
-      Policies: 
-        - S3CrudPolicy:
-            BucketName: !Ref GuinnessImageBucket
+  # UploadImageFunction:
+  #   Type: AWS::Serverless::Function
+  #   Properties:
+  #     CodeUri: guinness/src/lambda/uploadImage
+  #     Handler: app.uploadImage
+  #     Runtime: nodejs18.x
+  #     Architectures:
+  #       - x86_64
+  #     Events:
+  #       UploadImage:
+  #         Type: Api
+  #         Properties:
+  #           Path: /images
+  #           Method: get
+  #     Environment:
+  #       Variables:
+  #         S3_BUCKET_NAME: !Ref GuinnessImageBucket
+  #     Policies: 
+  #       - S3CrudPolicy:
+  #           BucketName: !Ref GuinnessImageBucket
 
-    Metadata: # Manage esbuild properties
-      BuildMethod: esbuild
-      BuildProperties:
-        Minify: true
-        Target: es2020
-        Sourcemap: true
-        EntryPoints:
+    # Metadata: # Manage esbuild properties
+    #   BuildMethod: esbuild
+    #   BuildProperties:
+    #     Minify: true
+    #     Target: es2020
+    #     Sourcemap: true
+    #     EntryPoints:
 
   # DynamoDB Tables
   ReviewTable:
