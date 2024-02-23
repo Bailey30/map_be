@@ -40,7 +40,6 @@ Resources:
         EntryPoints:
         - app.ts
 
-
   GetReviewsFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -71,6 +70,64 @@ Resources:
         EntryPoints:
         - app.ts
 
+  GetByIdFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: guinness/src/lambda/getById
+      Handler: app.getById
+      Runtime: nodejs18.x
+      Architectures:
+        - x86_64
+      Events:
+        GetReviews:
+          Type: Api
+          Properties:
+            Path: /review/{id}
+            Method: get
+      Environment:
+        Variables:
+          REVIEW_TABLE_NAME: !Ref ReviewTable
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref ReviewTable
+
+    Metadata: # Manage esbuild properties
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: true
+        Target: es2020
+        Sourcemap: true
+        EntryPoints:
+
+  UploadImageFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: guinness/src/lambda/uploadImage
+      Handler: app.uploadImage
+      Runtime: nodejs18.x
+      Architectures:
+        - x86_64
+      Events:
+        UploadImage:
+          Type: Api
+          Properties:
+            Path: /images
+            Method: get
+      Environment:
+        Variables:
+          S3_BUCKET_NAME: !Ref GuinnessImageBucket
+      Policies: 
+        - S3CrudPolicy:
+            BucketName: !Ref GuinnessImageBucket
+
+    Metadata: # Manage esbuild properties
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: true
+        Target: es2020
+        Sourcemap: true
+        EntryPoints:
+
   # DynamoDB Tables
   ReviewTable:
     Type: AWS::DynamoDB::Table
@@ -86,6 +143,20 @@ Resources:
         - AttributeName: price
           KeyType: RANGE #range key (sort key)
       BillingMode: PAY_PER_REQUEST
+
+  # S3 Bucket
+  GuinnessImageBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: guinnessimagebucket
+      CorsConfiguration:
+        CorsRules:
+          - AllowedMethods:
+              - "PUT"
+              - "GET"
+            AllowedOrigins:
+              - "*"
+        
 
 
   ApplicationResourceGroup:
