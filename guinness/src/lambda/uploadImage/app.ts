@@ -4,17 +4,11 @@
 
 // const bucketName = process.env.S3_BUCKET_NAME
 
-export const uploadImage = async (event: any, context: any) => {
-    console.log("redeployed")
-    try {
-        return {
-            status: 200,
-            body: JSON.stringify({ message: "h" })
-        }
-    } catch(err:any) {
-        console.log(err)
-        return err
-    }
+export const uploadImage = async (event: any, context: any, callback:any) => {
+    callback(null, {
+        status: 200,
+        body: JSON.stringify({message: "try status code nexttime"})
+    })
     // console.log('received:', event)
     // try {
     // if (event.httpMethod !== "POST") {
