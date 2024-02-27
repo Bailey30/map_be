@@ -144,6 +144,36 @@ Resources:
         EntryPoints:
         - app.ts
   
+  GetImageFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: guinness/src/lambda/getImage
+      Handler: app.getImage
+      Runtime: nodejs18.x
+      Architectures:
+        - x86_64
+      Events:
+        GetImage:
+          Type: Api
+          Properties:
+            Path: /image
+            Method: get
+      Environment:
+        Variables:
+          S3_BUCKET_NAME: !Ref guinnessImageBucket
+      Policies: 
+        - S3CrudPolicy:
+            BucketName: !Ref guinnessImageBucket
+
+    Metadata: # Manage esbuild properties
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: true
+        Target: es2020
+        Sourcemap: true
+        EntryPoints:
+        - app.ts
+
   ReviewTable:
     Type: AWS::DynamoDB::Table
     Properties:
