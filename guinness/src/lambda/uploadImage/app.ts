@@ -28,7 +28,7 @@ export const uploadImage = async (event: any, context: any, callback: any) => {
 
         let uploadURL = s3.getSignedUrl('putObject', s3Params)
 
-        return {
+        callback( {
             statusCode: 200,
             body: JSON.stringify({
                 uploadURL: uploadURL,
@@ -39,7 +39,7 @@ export const uploadImage = async (event: any, context: any, callback: any) => {
             headers: {
                 "Access-Control-Allow-Origin": "*"
             }
-        }
+        })
 
     } catch (err: any) {
         console.log("error occuring trying to create unsigned url", err)
