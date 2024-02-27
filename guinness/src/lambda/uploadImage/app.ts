@@ -28,7 +28,7 @@ export const uploadImage = async (event: any, context: any, callback: any) => {
 
         let uploadURL = s3.getSignedUrl('putObject', s3Params)
 
-        callback( {
+        callback(null,{
             statusCode: 200,
             body: JSON.stringify({
                 uploadURL: uploadURL,
