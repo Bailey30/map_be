@@ -157,7 +157,7 @@ Resources:
           Type: Api
           Properties:
             Path: /image
-            Method: get
+            Method: post
       Environment:
         Variables:
           S3_BUCKET_NAME: !Ref guinnessImageBucket
