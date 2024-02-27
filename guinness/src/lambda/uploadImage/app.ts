@@ -17,8 +17,8 @@ export const uploadImage = async (event: any, context: any, callback: any) => {
         //     throw new Error(`postMethod only accepts POST  method, you tried: ${event.httpMethod} method`)
         // }
 
-        // const body = JSON.parse(event.body!)
-        // const key = body.key
+        const body = JSON.parse(event.body!)
+        const key = body.key
         // const s3Params = {
         //     Bucket: bucketName,
         //     Key: key,
@@ -32,7 +32,7 @@ export const uploadImage = async (event: any, context: any, callback: any) => {
             statusCode: 200,
             body: JSON.stringify({
                 // uploadURL: uploadURL,
-                // filename: key,
+                filename: key,
                 message: "Successfully created unsigned url to send image to S3 bucket"
             })
             ,
