@@ -43,13 +43,13 @@ export const uploadImage = async (event: any, context: any, callback: any) => {
 
     } catch (err: any) {
         console.log("error occuring trying to create unsigned url", err)
-        return {
-            status: 500,
+        callback( null, {
+            statusCode: 500,
             body: JSON.stringify({
                 message: "Error trying to create unsigned url",
                 error: err,
             })
-        }
+        })
     }
 
 }
