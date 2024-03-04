@@ -43,11 +43,15 @@ export const getImages = async (event: any, context: any, callback: any) => {
                 const command2 = new GetObjectCommand(input)
                 console.log({command2})
                 const response2 = await client.send(command2)
+
                 console.log({response2})
-                responses.push(response2)
+                const bodyContents = await response2.Body?.transformToString("base64")
+                console.log({bodyContents})
+                responses.push(bodyContents)
             })
         }
 
+        console.log({responses})
 
         callback(null, {
             statusCode: 200,
