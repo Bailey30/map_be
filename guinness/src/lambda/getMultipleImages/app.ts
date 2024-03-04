@@ -14,12 +14,14 @@ export const getImages = async (event: any, context: any, callback: any) => {
         //     throw new Error(`postMethod only accepts POST  method, you tried: ${event.httpMethod} method`)
         // }
 
+        console.log({bucketName})
+
         const body = JSON.parse(event.body!)
         const location = body.location
         const s3Params = {
             Bucket: bucketName,
             Delimiter: "/",
-            Prefix: "test"
+            Prefix: "test/"
         }
 
         const command = new ListObjectsCommand(s3Params)
