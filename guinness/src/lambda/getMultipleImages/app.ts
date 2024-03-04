@@ -33,13 +33,11 @@ export const getImages = async (event: any, context: any, callback: any) => {
         const responses: any = []
         
         if (response.Contents) {
-            response.Contents.forEach(async ({ key }: any) => {
-                try {
-
-                console.log({key})
+            response.Contents.forEach(async ({ Key }: any) => {
+                console.log({Key})
                 const input = {
                     Bucket: bucketName,
-                    Key: key,
+                    Key: Key,
                     ContentType: "image/jpeg"
                 }
                 const command2 = new GetObjectCommand(input)
@@ -47,9 +45,6 @@ export const getImages = async (event: any, context: any, callback: any) => {
                 const response2 = await client.send(command2)
                 console.log({response2})
                 responses.push(response2)
-                } catch(e:any) {
-                    throw new Error(e)
-                }
             })
         }
 
