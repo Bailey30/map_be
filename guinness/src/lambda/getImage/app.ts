@@ -30,7 +30,7 @@ export const getImage = async (event: any, context: any, callback: any) => {
             body: JSON.stringify({
                 uploadURL: uploadURL,
                 filename: key,
-                message: "Successfully created unsigned url to get image from S3 bucket"
+                message: "Successfully created pre-signed url to get image from S3 bucket"
             })
             ,
             headers: {
@@ -39,11 +39,11 @@ export const getImage = async (event: any, context: any, callback: any) => {
         })
 
     } catch (err: any) {
-        console.log("error occuring trying to create unsigned url", err)
+        console.log("error occuring trying to create pre-signed url", err)
         callback( null, {
             statusCode: 500,
             body: JSON.stringify({
-                message: "Error trying to create unsigned url",
+                message: "Error trying to create pre-signed url",
                 error: err,
             })
         })

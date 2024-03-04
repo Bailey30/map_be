@@ -174,6 +174,36 @@ Resources:
         EntryPoints:
         - app.ts
 
+  GetMultpleImagesFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: guinness/src/lambda/getImages
+      Handler: app.getImage
+      Runtime: nodejs18.x
+      Architectures:
+        - x86_64
+      Events:
+        GetImage:
+          Type: Api
+          Properties:
+            Path: /getImages
+            Method: post
+      Environment:
+        Variables:
+          S3_BUCKET_NAME: !Ref guinnessImageBucket
+      Policies: 
+        - S3CrudPolicy:
+            BucketName: !Ref guinnessImageBucket
+
+    Metadata: # Manage esbuild properties
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: true
+        Target: es2020
+        Sourcemap: true
+        EntryPoints:
+        - app.ts
+
   ReviewTable:
     Type: AWS::DynamoDB::Table
     Properties:
@@ -216,6 +246,12 @@ Outputs:
   ImageApi:
     Description: API Gateway endpoint URL for image functions
     Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/image/"
+  getImageApi:
+    Description: API Gateway endpoint URL for the get image function
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/getImage/"
+  getMultipleImagesApi:
+    Description: API Gateway endpoint URL for the get image function
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/getImages/"
   CreateReviewFunction:
     Description: Create Review Function ARN
     Value: !GetAtt CreateReviewFunction.Arn
