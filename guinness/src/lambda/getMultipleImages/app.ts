@@ -25,6 +25,8 @@ export const getImages = async (event: any, context: any, callback: any) => {
         const command = new ListObjectsCommand(s3Params)
         const response = await client.send(command)
 
+        console.log({response})
+
         const responses: any = []
         
         if (response.Contents) {
@@ -36,6 +38,7 @@ export const getImages = async (event: any, context: any, callback: any) => {
                 }
                 const command2 = new GetObjectCommand(input)
                 const response2 = await client.send(command2)
+                console.log({response2})
                 responses.push(response2)
             })
         }
