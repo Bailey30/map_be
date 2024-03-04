@@ -21,7 +21,7 @@ export const getImages = async (event: any, context: any, callback: any) => {
         const s3Params = {
             Bucket: bucketName,
             Delimiter: "/",
-            Prefix: "test/"
+            Prefix: location + "/"
         }
 
         const command = new ListObjectsCommand(s3Params)
@@ -47,7 +47,7 @@ export const getImages = async (event: any, context: any, callback: any) => {
                 const bodyContents = await res.Body?.transformToString("base64");
                 console.log({ bodyContents });
 
-                responses[Key!.split("/")[1]] = bodyContents
+                responses[Key!.split("/")[1].split(".")[0]] = bodyContents
             }
         }
 
@@ -59,8 +59,7 @@ export const getImages = async (event: any, context: any, callback: any) => {
                 images: responses,
                 location: location,
                 message: "Successfully returned images for this location"
-            })
-            ,
+            }),
             headers: {
                 "Access-Control-Allow-Origin": "*"
             }
