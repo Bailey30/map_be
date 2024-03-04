@@ -42,12 +42,13 @@ export const getImages = async (event: any, context: any, callback: any) => {
                 }
                 const command2 = new GetObjectCommand(input)
                 console.log({command2})
-                const response2 = await client.send(command2)
+                await client.send(command2).then(async (res)=> {
+                    const bodyContents = await res.Body?.transformToString("base64")
+                    console.log({bodyContents})
+                    responses.push(bodyContents)
+                    
+                })
 
-                console.log({response2})
-                const bodyContents = await response2.Body?.transformToString("base64")
-                console.log({bodyContents})
-                responses.push(bodyContents)
             })
         }
 
