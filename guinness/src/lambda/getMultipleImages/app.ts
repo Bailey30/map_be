@@ -30,7 +30,7 @@ export const getImages = async (event: any, context: any, callback: any) => {
         console.log({ response })
         console.log(response.Contents)
 
-        const responses: any = []
+        const responses: any = {}
 
         if (response.Contents) {
             for (const { Key } of response.Contents) {
@@ -46,7 +46,8 @@ export const getImages = async (event: any, context: any, callback: any) => {
                 console.log({ res });
                 const bodyContents = await res.Body?.transformToString("base64");
                 console.log({ bodyContents });
-                responses.push(bodyContents);
+
+                responses[Key!.split("/")[1]] = bodyContents
             }
         }
 
