@@ -28,17 +28,20 @@ export const getImages = async (event: any, context: any, callback: any) => {
         const response = await client.send(command)
 
         console.log({response})
+        console.log(response.Contents)
 
         const responses: any = []
         
         if (response.Contents) {
             response.Contents.forEach(async ({ key }: any) => {
+                console.log({key})
                 const input = {
                     Bucket: bucketName,
                     Key: key,
                     ContentType: "image/jpeg"
                 }
                 const command2 = new GetObjectCommand(input)
+                console.log({command2})
                 const response2 = await client.send(command2)
                 console.log({response2})
                 responses.push(response2)
