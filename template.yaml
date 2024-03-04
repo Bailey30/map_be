@@ -177,7 +177,7 @@ Resources:
   GetMultpleImagesFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: guinness/src/lambda/getImages
+      CodeUri: guinness/src/lambda/getMultipleImages
       Handler: app.getImage
       Runtime: nodejs18.x
       Architectures:
