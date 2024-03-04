@@ -33,24 +33,21 @@ export const getImages = async (event: any, context: any, callback: any) => {
         const responses: any = []
 
         if (response.Contents) {
-            response.Contents.forEach(async ({ Key }: any) => {
-                console.log({ Key })
+            for (const { Key } of response.Contents) {
+                console.log({ Key });
                 const input = {
                     Bucket: bucketName,
                     Key: Key,
                     ContentType: "image/jpeg"
-                }
-                const command2 = new GetObjectCommand(input)
-                console.log({ command2 })
-                await client.send(command2).then(async (res) => {
-                    console.log({res})
-                    const bodyContents = await res.Body?.transformToString("base64")
-                    console.log({ bodyContents })
-                    responses.push(bodyContents)
-
-                })
-
-            })
+                };
+                const command2 = new GetObjectCommand(input);
+                console.log({ command2 });
+                const res = await client.send(command2);
+                console.log({ res });
+                const bodyContents = await res.Body?.transformToString("base64");
+                console.log({ bodyContents });
+                responses.push(bodyContents);
+            }
         }
 
         console.log({ responses })
