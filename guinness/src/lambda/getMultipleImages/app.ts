@@ -14,7 +14,7 @@ export const getImages = async (event: any, context: any, callback: any) => {
         //     throw new Error(`postMethod only accepts POST  method, you tried: ${event.httpMethod} method`)
         // }
 
-        console.log({bucketName})
+        console.log({ bucketName })
 
         const body = JSON.parse(event.body!)
         const location = body.location
@@ -27,32 +27,33 @@ export const getImages = async (event: any, context: any, callback: any) => {
         const command = new ListObjectsCommand(s3Params)
         const response = await client.send(command)
 
-        console.log({response})
+        console.log({ response })
         console.log(response.Contents)
 
         const responses: any = []
-        
+
         if (response.Contents) {
             response.Contents.forEach(async ({ Key }: any) => {
-                console.log({Key})
+                console.log({ Key })
                 const input = {
                     Bucket: bucketName,
                     Key: Key,
                     ContentType: "image/jpeg"
                 }
                 const command2 = new GetObjectCommand(input)
-                console.log({command2})
-                await client.send(command2).then(async (res)=> {
+                console.log({ command2 })
+                await client.send(command2).then(async (res) => {
+                    console.log({res})
                     const bodyContents = await res.Body?.transformToString("base64")
-                    console.log({bodyContents})
+                    console.log({ bodyContents })
                     responses.push(bodyContents)
-                    
+
                 })
 
             })
         }
 
-        console.log({responses})
+        console.log({ responses })
 
         callback(null, {
             statusCode: 200,
